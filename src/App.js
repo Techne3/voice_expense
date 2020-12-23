@@ -2,11 +2,13 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 
 import DetailsCard from "./components/Details/DetailsCard";
+import useStyles from "./styles";
 function App() {
+  const classes = useStyles();
   return (
-    // Card test
     <div>
       <Grid
+        className={classes.grid}
         container
         spacing={0}
         alignItems="center"
