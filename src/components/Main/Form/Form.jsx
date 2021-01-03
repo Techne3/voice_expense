@@ -1,13 +1,24 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {TextField,  Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core'
 
 
 import useStyles  from './styles'
 
 const Form = () => {
+    
+    const initialState = {
+        amount:'',
+        category: '',
+        type: 'Income',
+        date: new Date(),
+    }
  
+    const [formData, setFormData] = useState(initialState)
+
 
     const classes = useStyles()
+
+
 
     return (
         <Grid container spacing={2}>

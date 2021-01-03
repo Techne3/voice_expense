@@ -13,11 +13,13 @@ import { Delete, MoneyOff } from "@material-ui/icons";
 
 import useStyles from "./styles";
 
-// Context]
-// import { ExpenseTrackerContext } from "../../../context/context";
+// Context
+import { ExpenseTrackerContext } from "../../../context/context";
 
 const List = () => {
   const classes = useStyles();
+
+  const { deleteTransactions } = useContext(ExpenseTrackerContext);
 
   const transactions = [
     {
