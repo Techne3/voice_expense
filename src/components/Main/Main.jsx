@@ -10,7 +10,7 @@ import {
 
 import useStyles from "./styles";
 
-import Form from "./Form/Form.jsx";
+import Form from "./Form/Form.js";
 import List from "./List/List";
 const Main = () => {
   const classes = useStyles();
