@@ -19,9 +19,7 @@ import { ExpenseTrackerContext } from "../../../context/context";
 const List = () => {
   const classes = useStyles();
 
-  const { deleteTransactions, transactions } = useContext(
-    ExpenseTrackerContext
-  );
+  const { deleteTransaction, transactions } = useContext(ExpenseTrackerContext);
 
   // const transactions = [
   //   {
@@ -77,7 +75,7 @@ const List = () => {
               <IconButton
                 edge="end"
                 aria-label="delete"
-                // onClick={() => deleteTransaction(transaction.id)}
+                onClick={() => deleteTransaction(transaction.id)}
               >
                 <Delete />
               </IconButton>
