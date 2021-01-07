@@ -11,16 +11,21 @@ import {
   MenuItem,
 } from "@material-ui/core";
 
-import useStyles from "./styles";
-
+import {
+  incomeCategories,
+  expenseCategories,
+} from "../../../constants/categories";
 import { ExpenseTrackerContext } from "../../../context/context";
+import formatDate from "../../../utils/formatDate";
+
+import useStyles from "./styles";
 
 const Form = () => {
   const initialState = {
     amount: "",
     category: "",
     type: "Income",
-    date: new Date(),
+    date: formatDate(new Date()),
   };
 
   const [formData, setFormData] = useState(initialState);
@@ -41,6 +46,9 @@ const Form = () => {
   console.log(formData);
 
   const classes = useStyles();
+
+  const selectedCategories =
+    formData.type === "Income" ? incomeCategories : expenseCategories;
 
   return (
     <Grid container spacing={2}>
@@ -71,8 +79,11 @@ const Form = () => {
                 setFormData({ ...formData, category: e.target.value })
               }
             >
-              <MenuItem value="Business">Business</MenuItem>
-              <MenuItem value="Salary">Salary</MenuItem>
+              {selectedCategories.map((c) => (
+                <MenuItem key={c.type} value={c.type}>
+                  {c.type}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
@@ -89,7 +100,9 @@ const Form = () => {
       <Grid item xs={6}>
         <TextField
           value={formData.date}
-          onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, date: formatDate(e.target.value) })
+          }
           type="date"
           label="Date"
           fullWidth
