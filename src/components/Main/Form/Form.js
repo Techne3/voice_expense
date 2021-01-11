@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
   TextField,
@@ -17,6 +17,7 @@ import {
 } from "../../../constants/categories";
 import { ExpenseTrackerContext } from "../../../context/context";
 import formatDate from "../../../utils/formatDate";
+import { useSpeechContext } from "@speechly/react-client";
 
 import useStyles from "./styles";
 
@@ -29,6 +30,7 @@ const Form = () => {
   };
 
   const [formData, setFormData] = useState(initialState);
+  const { segment } = useSpeechContext();
 
   // context
   const { addTransaction } = useContext(ExpenseTrackerContext);
@@ -42,8 +44,47 @@ const Form = () => {
     addTransaction(transaction);
     setFormData(initialState);
   };
+  //   console.log(formData);
 
-  console.log(formData);
+  useEffect(() => {
+    if (segment) {
+      if (segment.intent.intent === "add_expense") {
+        setFormData({ ...formData, type: "Expense" });
+      } else if (segment.intent.intent === "add_income") {
+        setFormData({ ...formData, type: "Income" });
+      } else if (
+        segment.isFinal &&
+        segment.intent.intent === "create_transaction"
+      ) {
+        return createTransaction();
+      } else if (
+        segment.isFinal &&
+        segment.intent.intent === "cancel_transaction"
+      ) {
+        return setFormData(initialState);
+      }
+
+      segment.entities.forEach((e) => {
+        const category = `${e.value.charAt(0)} ${e.value
+          .slice(1)
+          .toLowerCase()}`;
+        // console.log(e.value);
+        switch (e.type) {
+          case "amount":
+            setFormData({ ...formData, amount: e.value });
+            break;
+          case "category":
+            setFormData({ ...formData, category: category });
+            break;
+          case "date":
+            setFormData({ ...formData, date: e.value });
+            break;
+          default:
+            break;
+        }
+      });
+    }
+  }, [segment]);
 
   const classes = useStyles();
 
@@ -54,7 +95,7 @@ const Form = () => {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography align="center" variant="subtitle2" gutterBottom>
-          ...
+          {segment && segment.words.map((w) => w.value).join(" ")}
         </Typography>
       </Grid>
       <Grid item xs={6}>
