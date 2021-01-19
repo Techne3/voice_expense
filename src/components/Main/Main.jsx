@@ -13,32 +13,28 @@ import useStyles from "./styles";
 
 import Form from "./Form/Form.js";
 import List from "./List/List";
+import InfoCard from "../InfoCard";
 
 const Main = () => {
 
 const {balance}  = useContext(ExpenseTrackerContext)
   const classes = useStyles();
-
   return (
     <Card className={classes.root}>
-      <CardHeader title="Expense Tracker" subheader="Powered by Speechly " />
+      <CardHeader title="Expense Tracker" subheader="Powered by Speechly" />
       <CardContent>
-        <Typography align="center" variant="h5">
-          Total Balance ${balance}
+        <Typography align="center" variant="h5">Total Balance ${balance}</Typography>
+        <Typography variant="subtitle1" style={{ lineHeight: '1.5em', marginTop: '20px' }}>
+          <InfoCard />
         </Typography>
-        <Typography
-          variant="subtitle1"
-          style={{ lineHeight: "1.5rem", marginTop: "200px" }}
-        >
-          {/* cardInfo */}
-          Try saying: Add income for $100 in Category Salary for Monday...
-        </Typography>
-        <Divider />
+        <Divider className={classes.divider} />
         <Form />
       </CardContent>
-      <CardContent className={classes.CardContent}>
-        <Grid item xs={12}>
-          <List />
+      <CardContent className={classes.cartContent}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <List />
+          </Grid>
         </Grid>
       </CardContent>
     </Card>
