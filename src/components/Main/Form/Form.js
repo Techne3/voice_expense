@@ -65,7 +65,7 @@ const Form = () => {
       }
 
       segment.entities.forEach((e) => {
-        const category = `${e.value.charAt(0)} ${e.value
+        const category = `${e.value.charAt(0)}${e.value
           .slice(1)
           .toLowerCase()}`;
         // console.log(e.value);
@@ -74,7 +74,13 @@ const Form = () => {
             setFormData({ ...formData, amount: e.value });
             break;
           case "category":
-            setFormData({ ...formData, category: category });
+            if (incomeCategories.map((iC) => iC.type).includes(category)) {
+              setFormData({ ...formData, type: "Income", category: category });
+            } else if (
+              incomeCategories.map((iC) => iC.type).includes(category)
+            ) {
+              setFormData({ ...formData, type: "Expense", category: category });
+            }
             break;
           case "date":
             setFormData({ ...formData, date: e.value });
