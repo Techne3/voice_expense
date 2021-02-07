@@ -8,5 +8,5 @@ body {
     background-size: cover; */
 
     background-image: linear-gradient(to right top, #051937, #004770, #007c9e, #00b4b8, #12ebbb);
-    background-size: cover;
+    background-size:contain;
 }
